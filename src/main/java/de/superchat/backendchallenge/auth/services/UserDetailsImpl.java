@@ -1,7 +1,7 @@
 package de.superchat.backendchallenge.auth.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import de.superchat.backendchallenge.auth.domain.User;
+import de.superchat.backendchallenge.shared.domain.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,13 +15,13 @@ import java.util.stream.Stream;
 public class UserDetailsImpl implements UserDetails {
 
     private static final long serialVersionUID = 1L;
-    private Integer id;
+    private Long id;
     private String email;
     @JsonIgnore
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
 
-    public UserDetailsImpl(Integer id, String email, String password,
+    public UserDetailsImpl(Long id, String email, String password,
                            Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.email = email;
@@ -31,7 +31,7 @@ public class UserDetailsImpl implements UserDetails {
 
     public static UserDetailsImpl build(User user) {
         List<GrantedAuthority> authorities = Stream.of(
-                new SimpleGrantedAuthority(user.getRoleId().getRole())).collect(Collectors.toList());
+                new SimpleGrantedAuthority(user.getRoles().getRole())).collect(Collectors.toList());
         return new UserDetailsImpl(
                 user.getId(),
                 user.getEmail(),

@@ -1,7 +1,7 @@
 package de.superchat.backendchallenge.auth.services;
 
-import de.superchat.backendchallenge.auth.domain.User;
 import de.superchat.backendchallenge.auth.repositories.UserRepository;
+import de.superchat.backendchallenge.shared.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
