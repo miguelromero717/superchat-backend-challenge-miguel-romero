@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  db_superchat:
+    image: postgres:12.7
+    container_name: "db_superchat"
+    env_file: ./conf/db/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_superchat_data:/var/lib/postgresql/data
+    networks:
+      - superchat_backend
+    restart: on-failure
+
+volumes:
+  db_superchat_data:
+
+networks:
+  superchat_backend:
