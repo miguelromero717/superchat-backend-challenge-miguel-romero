@@ -1,5 +1,5 @@
 package de.superchat.backendchallenge.shared.enums;
 
-public enum UserStatus {
-    active, inactive
+public enum Roles {
+    CLIENT, CONTACT
 }

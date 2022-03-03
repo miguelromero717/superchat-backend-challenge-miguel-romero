@@ -33,9 +33,10 @@ public class SignUpClientsController {
 
         Client client = new Client();
         client.setName(signUpClientRequest.getName());
+        client.setEmail(signUpClientRequest.getEmail());
         client.setStatus(ClientStatus.active);
 
-        return ResponseEntity.ok(clientService.saveClient(client));
+        return ResponseEntity.ok(clientService.signUpClient(client));
     }
 
 }

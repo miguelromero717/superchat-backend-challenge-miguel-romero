@@ -10,4 +10,7 @@ public class SignUpClientRequest {
     @NotNull
     private String name;
 
+    @NotNull
+    private String email;
+
 }

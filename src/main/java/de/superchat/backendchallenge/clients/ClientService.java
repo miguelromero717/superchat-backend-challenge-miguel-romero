@@ -1,11 +1,12 @@
 package de.superchat.backendchallenge.clients;
 
+import de.superchat.backendchallenge.auth.payload.SignUpClientResponse;
 import de.superchat.backendchallenge.shared.domain.Client;
 
 import java.util.Optional;
 
 public interface ClientService {
 
-    Optional<Client> saveClient(Client client) throws Exception;
+    Optional<SignUpClientResponse> signUpClient(Client client) throws Exception;
 
 }

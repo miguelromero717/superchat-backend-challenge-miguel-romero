@@ -11,3 +11,7 @@ databaseChangeLog:
       file: db/changelog/2022/03/v1.4.0-create-users-table.xml
   - include:
       file: db/changelog/2022/03/v1.4.1-update-role-not-null.xml
+  - include:
+      file: db/changelog/2022/03/v1.4.2-insert-roles.xml
+  - include:
+      file: db/changelog/2022/03/v1.4.3-add-email-field-clients-table.xml

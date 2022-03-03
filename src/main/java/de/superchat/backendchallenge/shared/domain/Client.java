@@ -42,6 +42,9 @@ public class Client extends BaseEntity {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
+    @Column(name = "email", nullable = false, length = 150)
+    private String email;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "client_status")
     @Type( type = "pgsql_enum" )

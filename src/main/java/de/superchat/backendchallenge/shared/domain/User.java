@@ -1,8 +1,11 @@
 package de.superchat.backendchallenge.shared.domain;
 
+import de.superchat.backendchallenge.shared.enums.PostgreSQLEnumType;
 import de.superchat.backendchallenge.shared.enums.UserStatus;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,6 +24,10 @@ import javax.persistence.Table;
 @Table(name = "users", indexes = {
         @Index(name = "users_email_key", columnList = "email", unique = true)
 })
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class
+)
 @Getter
 @Setter
 public class User extends BaseEntity {
@@ -40,6 +47,8 @@ public class User extends BaseEntity {
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "user_status")
+    @Type( type = "pgsql_enum" )
     private UserStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
