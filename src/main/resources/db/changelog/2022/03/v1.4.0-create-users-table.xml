@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="1.4.0" author="miguelromero717">
+        <sql>
+            create type user_status as enum ('active', 'inactive');
+        </sql>
+        <createTable tableName="users">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" unique="true" nullable="false" />
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false" />
+            </column>
+            <column name="email" type="varchar(150)">
+                <constraints unique="true" nullable="false" />
+            </column>
+            <column name="password" type="varchar(250)">
+                <constraints nullable="false" />
+            </column>
+            <column name="status" type="user_status" defaultValueComputed="'active'::user_status">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role_id" type="bigserial">
+                <constraints nullable="false" foreignKeyName="users_roles_fk" />
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="current_timestamp" />
+        </createTable>
+        <addForeignKeyConstraint baseTableName="users" baseColumnNames="role_id" constraintName="users_roles_fk"
+                                 referencedTableName="roles"
+                                 referencedColumnNames="id" />
+    </changeSet>
+
+</databaseChangeLog>

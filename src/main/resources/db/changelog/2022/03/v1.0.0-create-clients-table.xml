@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="1.0.0" author="miguelromero717">
+        <sql>
+            create type client_status as enum ('active');
+        </sql>
+        <sql>
+            create table if not exists clients
+            (
+                id
+                bigserial
+                constraint
+                clients_pk
+                primary
+                key,
+                name
+                varchar
+            (
+                50
+            ) not null,
+                status client_status default 'active'::client_status not null,
+                created_at timestamp default CURRENT_TIMESTAMP not null
+                );
+
+            alter table clients
+                owner to superchat;
+
+            create unique index clients_id_uindex
+                on clients (id);
+
+            create unique index clients_name_uindex
+                on clients (name);
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
