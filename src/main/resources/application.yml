@@ -18,3 +18,8 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
+
+superchat:
+  app:
+    jwtSecret: s3cr3tk3y*
+    jwtExpirationMs: 86400000
