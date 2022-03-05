@@ -10,7 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class ContactServiceImpl implements ContactService {
@@ -40,5 +44,12 @@ public class ContactServiceImpl implements ContactService {
         return Optional.ofNullable(
                 Optional.of(contactRepository.save(contact))
                         .orElseThrow(() -> new ContactException("Error creating Contact")));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Contact> getContactsByClient(Long clientId) throws Exception {
+        Set<Client> clients = Stream.of(clientRepository.findById(clientId).get()).collect(Collectors.toSet());
+        return contactRepository.findContactsByClientsIn(clients);
     }
 }
