@@ -48,9 +48,9 @@ public class UserServiceImpl implements UserService{
         Assert.notNull(name, "Invalid name to create a new user");
         Assert.notNull(email, "Invalid email to create a new user");
 
-        Role role = roleRepository.findRoleByRole(Roles.CLIENT.toString());
+        Optional<Role> role = roleRepository.findByRole(Roles.CLIENT.toString());
 
-        if (Optional.ofNullable(role).isEmpty())
+        if (role.isEmpty())
             throw new Exception("Invalid Role");
 
         User user = new User();
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService{
         user.setEmail(email);
         user.setPassword(encoder.encode(newPassword));
         user.setStatus(UserStatus.active);
-        user.setRoles(role);
+        user.setRoles(role.get());
 
         return Optional.of(userRepository.save(user));
     }

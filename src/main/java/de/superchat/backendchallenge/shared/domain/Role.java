@@ -1,5 +1,6 @@
 package de.superchat.backendchallenge.shared.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ import javax.persistence.Table;
 })
 @Getter
 @Setter
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Role extends BaseEntity {
 
     @Id

@@ -39,6 +39,8 @@ public class UserDetailsImpl implements UserDetails {
                 authorities);
     }
 
+    public Long getId() { return id; }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return this.authorities;
