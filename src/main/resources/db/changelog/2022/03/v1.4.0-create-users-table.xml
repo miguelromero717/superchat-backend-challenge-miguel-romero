@@ -7,7 +7,7 @@
 
     <changeSet id="1.4.0" author="miguelromero717">
         <sql>
-            create type user_status as enum ('active', 'inactive');
+            create type user_status as enum ('ACTIVE', 'INACTIVE');
         </sql>
         <createTable tableName="users">
             <column name="id" type="bigserial">
@@ -22,7 +22,7 @@
             <column name="password" type="varchar(250)">
                 <constraints nullable="false" />
             </column>
-            <column name="status" type="user_status" defaultValueComputed="'active'::user_status">
+            <column name="status" type="user_status" defaultValueComputed="'ACTIVE'::user_status">
                 <constraints nullable="false"/>
             </column>
             <column name="role_id" type="bigserial">

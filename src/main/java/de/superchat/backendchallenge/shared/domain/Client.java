@@ -8,6 +8,7 @@ import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -17,9 +18,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Index;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.LinkedHashSet;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -47,10 +50,29 @@ public class Client extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "client_status")
-    @Type( type = "pgsql_enum" )
+    @Type(type = "pgsql_enum")
     private ClientStatus status;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "client", fetch = FetchType.LAZY)
-    private Set<ContactsXClient> contactsXClients = new LinkedHashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "contacts_x_clients",
+            joinColumns = {@JoinColumn(name = "client_id")},
+            inverseJoinColumns = {@JoinColumn(name = "contact_id")})
+    private Set<Contact> contacts = new HashSet<>();
+
+    public void addContact(Contact contact) {
+        this.contacts.add(contact);
+        contact.getClients().add(this);
+    }
+
+    public void removeContact(Long contactId) {
+        Contact contact = this.contacts.stream().filter(c -> c.getId() == contactId).findFirst().orElse(null);
+        if (contact != null)
+            this.contacts.remove(contact);
+        contact.getClients().remove(this);
+    }
 }

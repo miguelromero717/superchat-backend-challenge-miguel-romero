@@ -6,22 +6,22 @@
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
 
     <changeSet id="1.2.0" author="miguelromero717">
-        <sql>
-            create table if not exists contacts_x_clients
-            (
-                contact_id bigserial
-                constraint contacts_x_clients_contacts_id_fk
-                references contacts
-                constraint contacts_x_clients_fk
-                references clients,
-                client_id  bigserial,
-                constraint contacts_x_clients_pk
-                primary key (client_id, contact_id)
-                );
-
-            alter table contacts_x_clients
-                owner to superchat;
-        </sql>
+        <createTable tableName="contacts_x_clients">
+            <column name="client_id" type="bigserial">
+                <constraints nullable="false" />
+            </column>
+            <column name="contact_id" type="bigserial">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="contacts_x_clients" baseColumnNames="client_id"
+                                 constraintName="contacts_clients_client_id_fk"
+                                 referencedTableName="clients"
+                                 referencedColumnNames="id" />
+        <addForeignKeyConstraint baseTableName="contacts_x_clients" baseColumnNames="contact_id"
+                                 constraintName="contacts_clients_contact_id_fk"
+                                 referencedTableName="contacts"
+                                 referencedColumnNames="id" />
     </changeSet>
 
 </databaseChangeLog>

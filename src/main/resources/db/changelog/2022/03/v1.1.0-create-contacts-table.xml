@@ -7,7 +7,7 @@
 
     <changeSet id="1.1.0" author="miguelromero717">
         <sql>
-            create type contact_status as enum ('active');
+            create type contact_status as enum ('ACTIVE');
         </sql>
         <sql>
             create table if not exists contacts
@@ -35,7 +35,7 @@
             (
                 25
             ) not null,
-                status contact_status default 'active'::contact_status not null,
+                status contact_status default 'ACTIVE'::contact_status not null,
                 created_at timestamp default CURRENT_TIMESTAMP
                 );
 

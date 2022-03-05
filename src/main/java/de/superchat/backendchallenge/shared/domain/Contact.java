@@ -1,23 +1,33 @@
 package de.superchat.backendchallenge.shared.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.superchat.backendchallenge.shared.enums.ContactStatus;
+import de.superchat.backendchallenge.shared.enums.PostgreSQLEnumType;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.TypeDef;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "contacts")
+@TypeDef(
+        name = "pgsql_enum",
+        typeClass = PostgreSQLEnumType.class
+)
 @Getter
 @Setter
 public class Contact extends BaseEntity {
@@ -40,12 +50,16 @@ public class Contact extends BaseEntity {
     private String phone;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "contact_status")
+    @Type( type = "pgsql_enum" )
     private ContactStatus status;
 
-    @OneToMany(mappedBy = "contact")
-    private List<ContactsXClient> contactsXClients = new ArrayList<>();
-
-    public List<ContactsXClient> getContactsXClients() {
-        return contactsXClients;
-    }
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            },
+            mappedBy = "contacts")
+    private Set<Client> clients = new HashSet<>();
 }

@@ -9,4 +9,6 @@ public interface ClientService {
 
     Optional<SignUpClientResponse> signUpClient(Client client) throws Exception;
 
+    Optional<Client> getClientById(Long clientId) throws Exception;
+
 }

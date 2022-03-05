@@ -1,7 +1,6 @@
 package de.superchat.backendchallenge.clients;
 
 import de.superchat.backendchallenge.auth.payload.SignUpClientResponse;
-import de.superchat.backendchallenge.auth.repositories.UserRepository;
 import de.superchat.backendchallenge.auth.services.UserService;
 import de.superchat.backendchallenge.shared.domain.Client;
 import de.superchat.backendchallenge.shared.domain.User;
@@ -50,5 +49,12 @@ public class ClientServiceImpl implements ClientService {
                 newPassword);
 
         return Optional.ofNullable(Optional.of(signUpClientResponse).orElseThrow(Exception::new));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Client> getClientById(Long clientId) throws Exception {
+        logger.info("Get Client By Id");
+        return clientRepository.findById(clientId);
     }
 }

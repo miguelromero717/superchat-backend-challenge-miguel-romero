@@ -13,6 +13,7 @@ import de.superchat.backendchallenge.shared.utils.JwtUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -53,12 +54,7 @@ public class AuthController {
     public ResponseEntity<?> signUpClient (@RequestBody @Validated SignUpClientRequest signUpClientRequest) throws Exception {
         logger.info("Sign Up Client endpoint");
 
-        Client client = new Client();
-        client.setName(signUpClientRequest.getName());
-        client.setEmail(signUpClientRequest.getEmail());
-        client.setStatus(ClientStatus.active);
-
-        return ResponseEntity.ok(clientService.signUpClient(client));
+        return new ResponseEntity<>(clientService.signUpClient(getClient(signUpClientRequest)), HttpStatus.CREATED);
     }
 
     @PostMapping("/clients/sign-in")
@@ -78,13 +74,22 @@ public class AuthController {
         if (role.isEmpty())
             throw new Exception("Invalid Client Role");
 
-        return ResponseEntity.ok(new SignInClientResponse(
+        return new ResponseEntity<>(new SignInClientResponse(
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getUsername(),
                 jwt,
                 role.get()
-        ));
+        ), HttpStatus.OK);
+    }
+
+    private Client getClient(SignUpClientRequest signUpClientRequest) {
+        Client client = new Client();
+        client.setName(signUpClientRequest.getName());
+        client.setEmail(signUpClientRequest.getEmail());
+        client.setStatus(ClientStatus.ACTIVE);
+
+        return client;
     }
 
 }
