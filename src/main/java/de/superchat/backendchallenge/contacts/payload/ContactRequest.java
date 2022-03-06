@@ -3,6 +3,7 @@ package de.superchat.backendchallenge.contacts.payload;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 public class ContactRequest {
@@ -18,5 +19,8 @@ public class ContactRequest {
 
     @NotNull
     private String phone;
+
+    @NotNull
+    private List<ContactChannelRequest> contactChannels;
 
 }

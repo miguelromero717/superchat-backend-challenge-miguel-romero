@@ -18,6 +18,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import java.util.HashSet;
 import java.util.Set;
@@ -51,7 +52,7 @@ public class Contact extends BaseEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "contact_status")
-    @Type( type = "pgsql_enum" )
+    @Type(type = "pgsql_enum")
     private ContactStatus status;
 
     @JsonIgnore
@@ -62,4 +63,8 @@ public class Contact extends BaseEntity {
             },
             mappedBy = "contacts")
     private Set<Client> clients = new HashSet<>();
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, mappedBy = "contacts")
+    @JsonIgnore
+    private Set<ContactChannel> contactChannels = new HashSet<>();
 }

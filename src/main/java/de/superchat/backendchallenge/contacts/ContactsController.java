@@ -1,6 +1,5 @@
 package de.superchat.backendchallenge.contacts;
 
-import de.superchat.backendchallenge.clients.ClientService;
 import de.superchat.backendchallenge.contacts.payload.ContactRequest;
 import de.superchat.backendchallenge.shared.domain.Contact;
 import de.superchat.backendchallenge.shared.enums.ContactStatus;
@@ -25,12 +24,10 @@ import java.util.Optional;
 public class ContactsController {
 
     private final ContactService contactService;
-    private final ClientService clientService;
 
     @Autowired
-    public ContactsController(ContactService contactService, ClientService clientService) {
+    public ContactsController(ContactService contactService) {
         this.contactService = contactService;
-        this.clientService = clientService;
     }
 
     @PostMapping("/{clientId}/clients")
@@ -41,8 +38,11 @@ public class ContactsController {
             throw new ClientException("Invalid Client Id");
 
         Optional<Contact> contact = Optional.of(
-                contactService.createContact(buildContactFromRequest(contactRequest), clientId))
+                contactService.createContact(buildContactFromRequest(contactRequest), contactRequest.getContactChannels(), clientId))
                 .orElseThrow(() -> new ContactException("Error creating Contact"));
+
+        if (contact.isEmpty())
+            throw new ContactException("Error creating Contact");
 
         return new ResponseEntity<>(contact.get(), HttpStatus.CREATED);
     }

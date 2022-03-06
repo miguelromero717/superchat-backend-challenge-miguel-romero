@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="1.5.0" author="miguelromero717">
+        <sql>
+            create type channels as enum ('SMS', 'EMAIL', 'WHATSAPP', 'FACEBOOK', 'INSTAGRAM', 'GOOGLE');
+        </sql>
+        <sql>
+            create type contact_channel_status as enum ('ACTIVE', 'INACTIVE');
+        </sql>
+        <createTable tableName="contact_channels">
+            <column name="id" type="bigserial">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="contact_id" type="bigserial">
+                <constraints nullable="false"/>
+            </column>
+            <column name="channel" type="channels" defaultValueComputed="'SMS'::channels">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="varchar(250)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="contact_channel_status" defaultValueComputed="'ACTIVE'::contact_channel_status">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="current_timestamp"/>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="contact_channels" baseColumnNames="contact_id"
+                                 constraintName="contact_channels_contact_id_fk"
+                                 referencedTableName="contacts"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>
