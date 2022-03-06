@@ -1,4 +1,4 @@
-package de.superchat.backendchallenge.auth.services;
+package de.superchat.backendchallenge.auth.services.impl;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import de.superchat.backendchallenge.shared.domain.User;

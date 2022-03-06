@@ -18,9 +18,18 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: none
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
 superchat:
   app:
     user-password: qwerty10*
     jwtSecret: s3cr3tk3y*
     jwtExpirationMs: 86400000
+  queue-user:
+    name: queue-user
+    exchange: exchange-user
+    routingKey: routing-key-user

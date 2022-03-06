@@ -1,6 +1,5 @@
 package de.superchat.backendchallenge.shared.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import de.superchat.backendchallenge.shared.enums.PostgreSQLEnumType;
 import de.superchat.backendchallenge.shared.enums.UserStatus;
 import lombok.Getter;

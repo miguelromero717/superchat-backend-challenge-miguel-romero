@@ -1,6 +1,6 @@
 package de.superchat.backendchallenge.config.security;
 
-import de.superchat.backendchallenge.auth.services.UserDetailsServiceImpl;
+import de.superchat.backendchallenge.auth.services.impl.UserDetailsServiceImpl;
 import de.superchat.backendchallenge.shared.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

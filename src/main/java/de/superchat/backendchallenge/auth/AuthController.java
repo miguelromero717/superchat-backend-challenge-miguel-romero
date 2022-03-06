@@ -1,10 +1,10 @@
-package de.superchat.backendchallenge.auth.controllers;
+package de.superchat.backendchallenge.auth;
 
 import de.superchat.backendchallenge.auth.payload.SignInClientRequest;
 import de.superchat.backendchallenge.auth.payload.SignInClientResponse;
 import de.superchat.backendchallenge.auth.payload.SignUpClientRequest;
 import de.superchat.backendchallenge.auth.services.RoleService;
-import de.superchat.backendchallenge.auth.services.UserDetailsImpl;
+import de.superchat.backendchallenge.auth.services.impl.UserDetailsImpl;
 import de.superchat.backendchallenge.clients.ClientService;
 import de.superchat.backendchallenge.shared.domain.Client;
 import de.superchat.backendchallenge.shared.domain.Role;

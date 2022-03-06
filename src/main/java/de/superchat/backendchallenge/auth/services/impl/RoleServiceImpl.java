@@ -1,8 +1,8 @@
-package de.superchat.backendchallenge.auth.services;
+package de.superchat.backendchallenge.auth.services.impl;
 
 import de.superchat.backendchallenge.auth.repositories.RoleRepository;
+import de.superchat.backendchallenge.auth.services.RoleService;
 import de.superchat.backendchallenge.shared.domain.Role;
-import de.superchat.backendchallenge.shared.enums.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

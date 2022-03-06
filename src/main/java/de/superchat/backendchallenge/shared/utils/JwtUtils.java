@@ -1,6 +1,6 @@
 package de.superchat.backendchallenge.shared.utils;
 
-import de.superchat.backendchallenge.auth.services.UserDetailsImpl;
+import de.superchat.backendchallenge.auth.services.impl.UserDetailsImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;

@@ -13,8 +13,24 @@ services:
       - superchat_backend
     restart: on-failure
 
+  queue_superchat:
+    image: rabbitmq:3-management
+    container_name: "queue_superchat"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - queue_superchat_data:/var/lib/rabbitmq/
+      - queue_superchat_log:/var/log/rabbitmq
+    networks:
+      - superchat_backend
+
+
 volumes:
   db_superchat_data:
+  queue_superchat_data:
+  queue_superchat_log:
+
 
 networks:
   superchat_backend:

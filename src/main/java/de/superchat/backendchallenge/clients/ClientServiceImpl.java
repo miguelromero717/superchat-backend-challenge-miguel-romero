@@ -1,9 +1,12 @@
 package de.superchat.backendchallenge.clients;
 
 import de.superchat.backendchallenge.auth.payload.SignUpClientResponse;
-import de.superchat.backendchallenge.auth.services.UserService;
+import de.superchat.backendchallenge.config.queue.payload.UserMessage;
+import de.superchat.backendchallenge.config.queue.properties.QueueUserMessageProperties;
 import de.superchat.backendchallenge.shared.domain.Client;
-import de.superchat.backendchallenge.shared.domain.User;
+import de.superchat.backendchallenge.shared.exceptions.ClientException;
+import de.superchat.backendchallenge.shared.services.queue.QueueProperties;
+import de.superchat.backendchallenge.shared.services.queue.user.QueueUserMessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +25,15 @@ public class ClientServiceImpl implements ClientService {
     private String newPassword;
 
     private final ClientRepository clientRepository;
-
-    private final UserService userService;
+    private final QueueUserMessageSender queueUserMessageSender;
+    private final QueueUserMessageProperties queueUserMessageProperties;
 
     @Autowired
-    public ClientServiceImpl(ClientRepository clientRepository, UserService userService) {
+    public ClientServiceImpl(ClientRepository clientRepository, QueueUserMessageSender queueUserMessageSender,
+                             QueueUserMessageProperties queueUserMessageProperties) {
         this.clientRepository = clientRepository;
-        this.userService = userService;
+        this.queueUserMessageSender = queueUserMessageSender;
+        this.queueUserMessageProperties = queueUserMessageProperties;
     }
 
     @Override
@@ -36,16 +41,18 @@ public class ClientServiceImpl implements ClientService {
     public Optional<SignUpClientResponse> signUpClient(Client client) throws Exception {
         logger.info("Save client service");
 
-        Client clientOpt = Optional.of(clientRepository.save(client)).orElseThrow();
+        Client clientOpt = Optional.of(
+                clientRepository.save(client))
+                .orElseThrow(() -> new ClientException("Error registering new Client"));
 
-        Optional<User> user = userService.createUserFromClient(client.getName(), client.getEmail());
-
-        if (user.isEmpty())
-            throw new Exception(); // TODO Improve exception handling
+        queueUserMessageSender.sendMessage(
+                new QueueProperties(queueUserMessageProperties.getExchange(), queueUserMessageProperties.getRoutingKey()),
+                new UserMessage(clientOpt.getName(), clientOpt.getEmail())
+        );
 
         var signUpClientResponse = new SignUpClientResponse(
                 "Client Registered!! These are your credentials to access",
-                user.get().getEmail(),
+                clientOpt.getEmail(),
                 newPassword);
 
         return Optional.ofNullable(Optional.of(signUpClientResponse).orElseThrow(Exception::new));

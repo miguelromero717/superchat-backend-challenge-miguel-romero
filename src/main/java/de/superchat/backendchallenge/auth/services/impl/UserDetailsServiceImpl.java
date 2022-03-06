@@ -1,4 +1,4 @@
-package de.superchat.backendchallenge.auth.services;
+package de.superchat.backendchallenge.auth.services.impl;
 
 import de.superchat.backendchallenge.auth.repositories.UserRepository;
 import de.superchat.backendchallenge.shared.domain.User;
