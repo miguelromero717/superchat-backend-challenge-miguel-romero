@@ -43,3 +43,19 @@ superchat:
     name: queue-message
     exchange: exchange-message
     routingKey: routing-key-message
+
+---
+spring:
+  config:
+    activate:
+      on-profile: docker-dev
+  datasource:
+    url: jdbc:postgresql://db_superchat/superchat_db
+    username: superchat
+    password: sup3rch4t*
+    driver-class-name: org.postgresql.Driver
+  rabbitmq:
+    host: queue_superchat
+    port: 5672
+    username: guest
+    password: guest

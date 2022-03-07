@@ -22,8 +22,24 @@ services:
     volumes:
       - queue_superchat_data:/var/lib/rabbitmq/
       - queue_superchat_log:/var/log/rabbitmq
+    depends_on:
+      - db_superchat
     networks:
       - superchat_backend
+
+  api_superchat:
+    container_name: "api_superchat"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8887:8888"
+    networks:
+      - superchat_backend
+    depends_on:
+      - db_superchat
+      - queue_superchat
+    restart: on-failure
 
 
 volumes:
