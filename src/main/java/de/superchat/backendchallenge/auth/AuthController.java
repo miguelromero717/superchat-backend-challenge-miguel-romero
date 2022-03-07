@@ -10,6 +10,7 @@ import de.superchat.backendchallenge.shared.domain.Client;
 import de.superchat.backendchallenge.shared.domain.Role;
 import de.superchat.backendchallenge.shared.enums.ClientStatus;
 import de.superchat.backendchallenge.shared.utils.JwtUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,6 +51,7 @@ public class AuthController {
         this.jwtUtils = jwtUtils;
     }
 
+    @Operation(summary = "Sign up a new Client")
     @PostMapping("/clients/sign-up")
     public ResponseEntity<?> signUpClient (@RequestBody @Validated SignUpClientRequest signUpClientRequest) throws Exception {
         logger.info("Sign Up Client endpoint");
@@ -57,6 +59,7 @@ public class AuthController {
         return new ResponseEntity<>(clientService.signUpClient(getClient(signUpClientRequest)), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Check client credentials to allow access to the system")
     @PostMapping("/clients/sign-in")
     public ResponseEntity<?> signInClient(@RequestBody @Validated SignInClientRequest signInClientRequest) throws Exception {
         Authentication authentication = authenticationManager.authenticate(

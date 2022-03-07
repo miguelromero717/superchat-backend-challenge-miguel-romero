@@ -1,5 +1,6 @@
 package de.superchat.backendchallenge.messages;
 
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,6 +24,7 @@ public class MessagesController {
         this.messagesService = messagesService;
     }
 
+    @Operation(summary = "Send message to one Contact from Client")
     @PostMapping("/clients/{clientId}/contact/{contactId}")
     public ResponseEntity<?> sendMessageToContact(@PathVariable Long clientId, @PathVariable Long contactId,
             @RequestBody @Validated MessagesRequest messagesRequest) throws Exception {
@@ -32,6 +34,7 @@ public class MessagesController {
         return ResponseEntity.ok("Message Sent Correctly");
     }
 
+    @Operation(summary = "Get List of messages between client and contact")
     @GetMapping("/clients/{clientId}/contact/{contactId}")
     public ResponseEntity<List<?>> getMessagesWithContact(@PathVariable Long clientId,
                                                           @PathVariable Long contactId) throws Exception {

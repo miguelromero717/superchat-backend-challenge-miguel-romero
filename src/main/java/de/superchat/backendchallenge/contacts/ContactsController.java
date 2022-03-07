@@ -5,6 +5,7 @@ import de.superchat.backendchallenge.shared.domain.Contact;
 import de.superchat.backendchallenge.shared.enums.ContactStatus;
 import de.superchat.backendchallenge.shared.exceptions.ClientException;
 import de.superchat.backendchallenge.shared.exceptions.ContactException;
+import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class ContactsController {
         this.contactService = contactService;
     }
 
+    @Operation(summary = "Create a new contact related to the client")
     @PostMapping("/{clientId}/clients")
     public ResponseEntity<?> createContact(@PathVariable Long clientId,
                                            @RequestBody @Validated ContactRequest contactRequest) throws Exception {
@@ -47,6 +49,7 @@ public class ContactsController {
         return new ResponseEntity<>(contact.get(), HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get list of contacts by Client")
     @GetMapping("/{clientId}/clients")
     public ResponseEntity<List<Contact>> getContactsByClient(@PathVariable Long clientId) throws Exception {
 
