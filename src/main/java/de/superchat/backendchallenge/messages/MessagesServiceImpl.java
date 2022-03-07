@@ -6,6 +6,7 @@ import de.superchat.backendchallenge.config.queue.properties.QueueMessagesProper
 import de.superchat.backendchallenge.contacts.ContactRepository;
 import de.superchat.backendchallenge.external.CryptoCurrencyProperties;
 import de.superchat.backendchallenge.external.CryptoCurrencyProviderImpl;
+import de.superchat.backendchallenge.external.webhook.WebhookRequest;
 import de.superchat.backendchallenge.shared.domain.Contact;
 import de.superchat.backendchallenge.shared.domain.ContactChannel;
 import de.superchat.backendchallenge.shared.domain.Template;
@@ -86,6 +87,21 @@ public class MessagesServiceImpl implements MessagesService {
                 channels.stream().filter(c -> c.getChannel().equals(channel)).findFirst().get().getValue(),
                 senderId,
                 recipientId
+        );
+
+        queueMessagesSender.sendMessage(queueMessagesProperties, messageToSend);
+
+        messagesRepository.save(buildEntityToSave(messageToSend));
+    }
+
+    @Override
+    public void sendMessageFromWebhook(WebhookRequest webhookRequest) throws Exception {
+        Message messageToSend = smsMessageBuilder.buildMessage(
+                webhookRequest.getMessage(),
+                webhookRequest.getChannel(),
+                webhookRequest.getChannelValue(),
+                webhookRequest.getSenderId(),
+                webhookRequest.getRecipientId()
         );
 
         queueMessagesSender.sendMessage(queueMessagesProperties, messageToSend);
