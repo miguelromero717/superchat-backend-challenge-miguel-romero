@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="1.9.0" author="miguelromero717">
+        <createTable tableName="messages">
+            <column name="id" type="bigserial">
+                <constraints primaryKey="true" unique="true" nullable="false"/>
+            </column>
+            <column name="message" type="longtext">
+                <constraints nullable="false"/>
+            </column>
+            <column name="channel" type="channels" defaultValueComputed="'SMS'::channels">
+                <constraints nullable="false"/>
+            </column>
+            <column name="sender_id" type="bigserial">
+                <constraints nullable="false" />
+            </column>
+            <column name="recipient_id" type="bigserial">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_at" type="timestamp" defaultValueComputed="current_timestamp"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

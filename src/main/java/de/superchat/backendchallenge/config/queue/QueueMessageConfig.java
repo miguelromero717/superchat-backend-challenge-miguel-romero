@@ -1,6 +1,7 @@
 package de.superchat.backendchallenge.config.queue;
 
-import de.superchat.backendchallenge.config.queue.properties.QueueUserMessageProperties;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import de.superchat.backendchallenge.config.queue.properties.QueueMessagesProperties;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -16,43 +17,42 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class QueueUserConfig {
+public class QueueMessageConfig {
 
-    private final QueueUserMessageProperties properties;
+    private final QueueMessagesProperties properties;
 
     @Autowired
-    public QueueUserConfig(QueueUserMessageProperties queueUserMessageProperties) {
-        this.properties = queueUserMessageProperties;
+    public QueueMessageConfig(QueueMessagesProperties properties) {
+        this.properties = properties;
     }
 
     @Bean
-    Queue queueUser() {
+    Queue queueMessage() {
         return new Queue(properties.getName(), false);
     }
 
     @Bean
-    DirectExchange exchangeUser() {
+    DirectExchange exchangeMessage() {
         return new DirectExchange(properties.getExchange());
     }
 
     @Bean
-    Binding bindingUser(Queue queueUser, DirectExchange exchangeUser) {
-        return BindingBuilder.bind(queueUser).to(exchangeUser).with(properties.getRoutingKey());
+    Binding bindingMessage(Queue queueMessage, DirectExchange exchangeMessage) {
+        return BindingBuilder.bind(queueMessage).to(exchangeMessage).with(properties.getRoutingKey());
     }
 
     @Bean
-    @Qualifier("userQueueConverter")
-    public MessageConverter jsonUserMessageConverter() {
-        return new Jackson2JsonMessageConverter();
+    @Qualifier("messageQueueConverter")
+    public MessageConverter jsonMessagesConverter() {
+        ObjectMapper mapper = new ObjectMapper().findAndRegisterModules();
+        return new Jackson2JsonMessageConverter(mapper);
     }
 
     @Bean
-    @Qualifier("userQueueTemplate")
-    public AmqpTemplate queueUserTemplate(ConnectionFactory connectionFactory) {
+    @Qualifier("messageQueueTemplate")
+    public AmqpTemplate queueMessagesTemplate(ConnectionFactory connectionFactory) {
         final RabbitTemplate rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(jsonUserMessageConverter());
+        rabbitTemplate.setMessageConverter(jsonMessagesConverter());
         return rabbitTemplate;
     }
-
-
 }

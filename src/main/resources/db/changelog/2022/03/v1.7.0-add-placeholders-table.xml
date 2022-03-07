@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+        <changeSet id="1.7.0" author="miguelromero717">
+            <sql>
+                create type placeholders_status as enum ('ACTIVE', 'INACTIVE');
+            </sql>
+            <createTable tableName="placeholders">
+                <column name="id" type="bigserial">
+                    <constraints nullable="false" unique="true" primaryKey="true" />
+                </column>
+                <column name="placeholder" type="varchar(30)">
+                    <constraints nullable="false" unique="true" />
+                </column>
+                <column name="status" type="placeholders_status" defaultValueComputed="'ACTIVE'::placeholders_status">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="created_at" type="timestamp" defaultValueComputed="current_timestamp"/>
+            </createTable>
+        </changeSet>
+
+</databaseChangeLog>

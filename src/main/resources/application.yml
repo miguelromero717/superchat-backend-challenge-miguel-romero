@@ -29,7 +29,17 @@ superchat:
     user-password: qwerty10*
     jwtSecret: s3cr3tk3y*
     jwtExpirationMs: 86400000
+  external:
+    crypto-api:
+      keyHeader: X-CoinAPI-Key
+      key: 3AB2C94E-DB20-4A9D-B94B-6CE52EF55C86
+      url: https://rest-sandbox.coinapi.io/
+      pathAsset: /v1/assets?filter_asset_id=
   queue-user:
     name: queue-user
     exchange: exchange-user
     routingKey: routing-key-user
+  queue-message:
+    name: queue-message
+    exchange: exchange-message
+    routingKey: routing-key-message

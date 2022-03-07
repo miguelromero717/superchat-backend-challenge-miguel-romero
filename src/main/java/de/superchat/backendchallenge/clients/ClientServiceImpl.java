@@ -5,7 +5,6 @@ import de.superchat.backendchallenge.config.queue.payload.UserMessage;
 import de.superchat.backendchallenge.config.queue.properties.QueueUserMessageProperties;
 import de.superchat.backendchallenge.shared.domain.Client;
 import de.superchat.backendchallenge.shared.exceptions.ClientException;
-import de.superchat.backendchallenge.shared.services.queue.QueueProperties;
 import de.superchat.backendchallenge.shared.services.queue.user.QueueUserMessageSender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +45,7 @@ public class ClientServiceImpl implements ClientService {
                 .orElseThrow(() -> new ClientException("Error registering new Client"));
 
         queueUserMessageSender.sendMessage(
-                new QueueProperties(queueUserMessageProperties.getExchange(), queueUserMessageProperties.getRoutingKey()),
+                queueUserMessageProperties,
                 new UserMessage(clientOpt.getName(), clientOpt.getEmail())
         );
 

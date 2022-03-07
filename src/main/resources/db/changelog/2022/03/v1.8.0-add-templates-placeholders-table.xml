@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="1.8.0" author="miguelromero717">
+        <createTable tableName="templates_x_placeholders">
+            <column name="template_id" type="bigserial">
+                <constraints nullable="false" />
+            </column>
+            <column name="placeholder_id" type="bigserial">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="templates_x_placeholders" baseColumnNames="template_id"
+                                 constraintName="templates_placeholders_template_id_fk"
+                                 referencedTableName="templates"
+                                 referencedColumnNames="id"/>
+        <addForeignKeyConstraint baseTableName="templates_x_placeholders" baseColumnNames="placeholder_id"
+                                 constraintName="templates_placeholders_placeholder_id_fk"
+                                 referencedTableName="placeholders"
+                                 referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>

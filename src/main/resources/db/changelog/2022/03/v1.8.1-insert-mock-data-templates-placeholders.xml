@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.5.xsd">
+
+    <changeSet id="1.8.1" author="miguelromero717">
+        <insert tableName="placeholders">
+            <column name="placeholder" value="contact_name"/>
+        </insert>
+        <insert tableName="placeholders">
+            <column name="placeholder" value="btc"/>
+        </insert>
+        <insert tableName="templates">
+            <column name="name" value="sms_tmpl"/>
+            <column name="message" value="Hi {0}, Test SMS Template with BTC Price {1}"/>
+        </insert>
+        <insert tableName="templates_x_placeholders">
+            <column name="template_id" value="1"/>
+            <column name="placeholder_id" value="1"/>
+        </insert>
+        <insert tableName="templates_x_placeholders">
+            <column name="template_id" value="1"/>
+            <column name="placeholder_id" value="2"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

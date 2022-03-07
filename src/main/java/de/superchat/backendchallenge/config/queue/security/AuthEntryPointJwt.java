@@ -1,4 +1,4 @@
-package de.superchat.backendchallenge.config.security;
+package de.superchat.backendchallenge.config.queue.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

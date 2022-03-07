@@ -1,4 +1,4 @@
-package de.superchat.backendchallenge.config.security;
+package de.superchat.backendchallenge.config.queue.security;
 
 import de.superchat.backendchallenge.auth.services.impl.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;

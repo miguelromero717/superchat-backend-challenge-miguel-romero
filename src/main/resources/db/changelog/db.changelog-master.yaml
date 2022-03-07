@@ -17,3 +17,13 @@ databaseChangeLog:
       file: db/changelog/2022/03/v1.4.3-add-email-field-clients-table.xml
   - include:
       file: db/changelog/2022/03/v1.5.0-add-contact-channel-table.xml
+  - include:
+      file: db/changelog/2022/03/v1.6.0-add-template-table.xml
+  - include:
+      file: db/changelog/2022/03/v1.7.0-add-placeholders-table.xml
+  - include:
+      file: db/changelog/2022/03/v1.8.0-add-templates-placeholders-table.xml
+  - include:
+      file: db/changelog/2022/03/v1.8.1-insert-mock-data-templates-placeholders.xml
+  - include:
+      file: db/changelog/2022/03/v1.9.0-add-messages-table.xml
