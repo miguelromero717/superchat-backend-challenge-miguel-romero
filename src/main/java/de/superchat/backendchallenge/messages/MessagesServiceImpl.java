@@ -29,7 +29,6 @@ import java.util.stream.Collectors;
 public class MessagesServiceImpl implements MessagesService {
 
     private final MessagesRepository messagesRepository;
-    private final ClientRepository clientRepository;
     private final ContactRepository contactRepository;
     private final TemplateService templateService;
     private final SMSMessageBuilder smsMessageBuilder;
@@ -39,13 +38,11 @@ public class MessagesServiceImpl implements MessagesService {
     private final QueueMessagesProperties queueMessagesProperties;
 
     @Autowired
-    public MessagesServiceImpl(MessagesRepository messagesRepository, ClientRepository clientRepository,
-                               ContactRepository contactRepository, TemplateService templateService,
-                               SMSMessageBuilder smsMessageBuilder, CryptoCurrencyProviderImpl cryptoCurrencyProviderImpl,
-                               CryptoCurrencyProperties cryptoCurrencyProperties, QueueMessagesSender queueMessagesSender,
-                               QueueMessagesProperties queueMessagesProperties) {
+    public MessagesServiceImpl(MessagesRepository messagesRepository, ContactRepository contactRepository,
+                               TemplateService templateService, SMSMessageBuilder smsMessageBuilder,
+                               CryptoCurrencyProviderImpl cryptoCurrencyProviderImpl, CryptoCurrencyProperties cryptoCurrencyProperties,
+                               QueueMessagesSender queueMessagesSender, QueueMessagesProperties queueMessagesProperties) {
         this.messagesRepository = messagesRepository;
-        this.clientRepository = clientRepository;
         this.contactRepository = contactRepository;
         this.templateService = templateService;
         this.smsMessageBuilder = smsMessageBuilder;

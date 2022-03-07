@@ -52,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests().antMatchers("/api/v1/auth/**").permitAll()
                 .and()
-                .authorizeRequests().antMatchers("/api/v1/webhook/**").permitAll()
+                .authorizeRequests().antMatchers("/api/v1/webhook").permitAll()
                 .and()
                 .authorizeRequests().antMatchers("/v3/api-docs/**").permitAll()
                 .and()
